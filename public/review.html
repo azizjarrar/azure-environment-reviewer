@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azure Environment Review — Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/review.css" />
+  <link rel="stylesheet" href="/css/settings.css" />
+</head>
+<body>
+
+  <!-- ── Top Bar ─────────────────────────────────────────────── -->
+  <header class="top-bar">
+    <div class="logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#0078D4"/>
+        <path d="M8 22L14 10l4 8 3-4 5 8H8z" fill="white" opacity="0.9"/>
+      </svg>
+      <span>Azure<strong>Review</strong></span>
+    </div>
+    <div class="top-bar-center">
+      <span id="scan-time" class="scan-time"></span>
+    </div>
+    <div class="top-bar-right">
+      <span id="sub-badge" class="top-badge">Loading…</span>
+      <button id="run-btn" class="btn-primary" style="height:36px;font-size:13px;padding:0 18px;">
+        <span class="btn-text">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px;vertical-align:-2px"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Run Review
+        </span>
+        <span class="btn-spinner hidden">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+          Scanning…
+        </span>
+      </button>
+      <button id="ai-btn" class="btn-secondary" style="height:36px;font-size:13px;border-color:#8e44ad;color:#8e44ad;margin-left:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-2px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.63 3 12"/><polyline points="21 12 16.5 14.63 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        AI Report
+      </button>
+      <div class="user-pill" style="margin-left:4px;">
+        <div class="user-dot" id="user-initials-bar">?</div>
+        <span id="user-name-bar" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+      </div>
+      <a href="/settings" class="btn-ghost-nav">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;vertical-align:-1px"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Settings
+      </a>
+      <button id="logout-btn" class="btn-ghost-nav logout">Logout</button>
+    </div>
+  </header>
+
+  <!-- ── App Body ────────────────────────────────────────────── -->
+  <div class="app-body">
+
+    <!-- ── Sidebar ───────────────────────────────────────────── -->
+    <nav class="sidebar">
+
+      <!-- Review selector -->
+      <div style="padding:10px 12px 4px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between">
+          Reviews
+          <button id="refresh-reviews-btn" title="Refresh list" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:0;line-height:1;font-size:14px">&#8635;</button>
+        </div>
+        <select id="review-selector" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text);background:var(--surface);cursor:pointer;outline:none">
+          <option value="">No reviews yet</option>
+        </select>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:10px 12px;opacity:0.5"></div>
+      <div class="sidebar-section-label">Sections</div>
+
+      <button class="tab-btn active" data-section="overview">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </span>
+        <span class="tab-label">Overview</span>
+        <span class="tab-badge" id="badge-overview"></span>
+      </button>
+
+      <button class="tab-btn" data-section="iam">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <span class="tab-label">IAM / RBAC</span>
+        <span class="tab-status" id="status-iam"></span>
+        <span class="tab-badge hidden" id="badge-iam"></span>
+      </button>
+
+      <button class="tab-btn" data-section="networking">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </span>
+        <span class="tab-label">Networking</span>
+        <span class="tab-status" id="status-networking"></span>
+        <span class="tab-badge hidden" id="badge-networking"></span>
+      </button>
+
+      <button class="tab-btn" data-section="storage">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </span>
+        <span class="tab-label">Storage</span>
+        <span class="tab-status" id="status-storage"></span>
+        <span class="tab-badge hidden" id="badge-storage"></span>
+      </button>
+
+      <button class="tab-btn" data-section="compute">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </span>
+        <span class="tab-label">Compute</span>
+        <span class="tab-status" id="status-compute"></span>
+        <span class="tab-badge hidden" id="badge-compute"></span>
+      </button>
+
+      <button class="tab-btn" data-section="securityCenter">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        <span class="tab-label">Security Center</span>
+        <span class="tab-status" id="status-securityCenter"></span>
+        <span class="tab-badge hidden" id="badge-securityCenter"></span>
+      </button>
+
+      <button class="tab-btn" data-section="keyVault">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        </span>
+        <span class="tab-label">Key Vault</span>
+        <span class="tab-status" id="status-keyVault"></span>
+        <span class="tab-badge hidden" id="badge-keyVault"></span>
+      </button>
+
+      <button class="tab-btn" data-section="monitor">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </span>
+        <span class="tab-label">Monitor</span>
+        <span class="tab-status" id="status-monitor"></span>
+        <span class="tab-badge hidden" id="badge-monitor"></span>
+      </button>
+
+      <button class="tab-btn" data-section="resourceGroups">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </span>
+        <span class="tab-label">Resource Groups</span>
+        <span class="tab-status" id="status-resourceGroups"></span>
+        <span class="tab-badge hidden" id="badge-resourceGroups"></span>
+      </button>
+
+      <button class="tab-btn" data-section="policy">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </span>
+        <span class="tab-label">Azure Policy</span>
+        <span class="tab-status" id="status-policy"></span>
+        <span class="tab-badge hidden" id="badge-policy"></span>
+      </button>
+
+      <div class="sidebar-spacer" style="height:1px;background:var(--border);margin:10px 15px;opacity:0.5"></div>
+
+      <button class="tab-btn" data-section="ai">
+        <span class="tab-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8e44ad" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </span>
+        <span class="tab-label" style="color:#8e44ad;font-weight:600">AI Report</span>
+        <span id="badge-ai" class="tab-badge hidden" style="background:#8e44ad">New</span>
+      </button>
+
+      <div class="sidebar-footer">
+        <div class="total-count" id="total-count"></div>
+      </div>
+    </nav>
+
+    <!-- ── Main Content ───────────────────────────────────────── -->
+    <main class="content-area">
+
+      <!-- Error State -->
+      <div id="error-state" class="error-state hidden">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span id="error-msg"></span>
+      </div>
+
+      <!-- Progress Panel -->
+      <div id="progress-panel" class="progress-panel hidden">
+        <div class="progress-header">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0078D4" stroke-width="2.5" class="spin">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+          Scanning Azure environment…
+        </div>
+        <div id="progress-sections" class="progress-sections"></div>
+      </div>
+
+      <!-- Overview Panel -->
+      <div id="panel-overview" class="tab-panel active">
+        <div class="panel-header">
+          <h2>Overview</h2>
+          <span class="panel-sub">Summary of all scanned resources</span>
+        </div>
+        <!-- Empty State lives inside the overview panel so the header always shows at top -->
+        <div id="empty-state" class="empty-state">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#c8d6e5" stroke-width="1.2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <h3>No scan data yet</h3>
+          <p>Click <strong>Run Review</strong> to audit your Azure environment.</p>
+        </div>
+        <div id="overview-grid" class="overview-grid"></div>
+      </div>
+
+      <!-- Section Panels (one per section) -->
+      <div id="panel-iam"            class="tab-panel"><div class="panel-header"><h2>IAM / RBAC</h2><span class="panel-sub">Role assignments, custom roles, classic admins</span></div><div class="panel-body" id="body-iam"></div></div>
+      <div id="panel-networking"     class="tab-panel"><div class="panel-header"><h2>Networking</h2><span class="panel-sub">NSGs, VNets, public IPs, firewalls, load balancers</span></div><div class="panel-body" id="body-networking"></div></div>
+      <div id="panel-storage"        class="tab-panel"><div class="panel-header"><h2>Storage</h2><span class="panel-sub">Storage accounts, containers, encryption, access</span></div><div class="panel-body" id="body-storage"></div></div>
+      <div id="panel-compute"        class="tab-panel"><div class="panel-header"><h2>Compute</h2><span class="panel-sub">VMs, App Services, AKS, Container Instances &amp; Apps</span></div><div class="panel-body" id="body-compute"></div></div>
+      <div id="panel-securityCenter" class="tab-panel"><div class="panel-header"><h2>Security Center</h2><span class="panel-sub">Secure score, recommendations, alerts</span></div><div class="panel-body" id="body-securityCenter"></div></div>
+      <div id="panel-keyVault"       class="tab-panel"><div class="panel-header"><h2>Key Vault</h2><span class="panel-sub">Vaults, access policies, secrets, keys, certificates</span></div><div class="panel-body" id="body-keyVault"></div></div>
+      <div id="panel-monitor"        class="tab-panel"><div class="panel-header"><h2>Monitor / Logging</h2><span class="panel-sub">Alerts, log profiles, action groups, workspaces</span></div><div class="panel-body" id="body-monitor"></div></div>
+      <div id="panel-resourceGroups" class="tab-panel"><div class="panel-header"><h2>Resource Groups</h2><span class="panel-sub">All resource groups — click a row to explore resources inside</span></div><div class="panel-body" id="body-resourceGroups"></div></div>
+      <div id="panel-policy"         class="tab-panel"><div class="panel-header"><h2>Azure Policy</h2><span class="panel-sub">Policy assignments, custom definitions, initiatives, compliance</span></div><div class="panel-body" id="body-policy"></div></div>
+      <div id="panel-ai"             class="tab-panel">
+        <div class="panel-header">
+          <h2 style="color:#8e44ad">AI Analysis Reports</h2>
+          <span class="panel-sub">Reports generated by Microsoft Foundry Agent — select a review to browse its reports</span>
+        </div>
+        <div class="panel-body" id="body-ai">
+          <div class="empty-state">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#c8d6e5" stroke-width="1.2">
+               <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
+            <h3>Select a review first</h3>
+            <p>Choose a review from the sidebar dropdown, then click <strong>AI Report</strong> in the top bar to generate one.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ── Detail Modal ──────────────────────────────────────────── -->
+  <div id="detail-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-hd">
+        <span id="modal-title" class="modal-title"></span>
+        <button id="modal-close" class="modal-close-btn" aria-label="Close">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div id="modal-body" class="modal-bd"></div>
+    </div>
+  </div>
+
+  <!-- ── Run Review Modal ──────────────────────────────────── -->
+  <div id="run-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-box" style="max-width:420px">
+      <div class="modal-hd">
+        <span class="modal-title">New Security Review</span>
+        <button id="run-modal-close" class="modal-close-btn" aria-label="Close">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-bd" style="padding:20px 24px 24px">
+        <div id="run-modal-sub" style="display:flex;align-items:center;gap:8px;background:#e8f4fd;border:1px solid #b3d7f5;border-radius:8px;padding:9px 12px;margin-bottom:16px;font-size:12px;color:#005a9e">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <span>Scanning subscription: <strong id="run-modal-sub-label">—</strong></span>
+        </div>
+        <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text)">Review Name</label>
+        <input id="review-name-input" type="text" placeholder="e.g. Q2 2026 Security Audit"
+          style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;box-sizing:border-box;color:var(--text);outline:none;margin-bottom:16px"
+          maxlength="80" />
+        <button id="confirm-run-btn" class="btn-primary" style="width:100%;height:42px;font-size:14px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px;vertical-align:-2px"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Start Review
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/review/utils.js"></script>
+  <script src="/js/review/state.js"></script>
+  <script src="/js/review/dom.js"></script>
+  <script src="/js/review/modal.js"></script>
+  <script src="/js/review/progress.js"></script>
+  <script src="/js/review/tabs.js"></script>
+  <script src="/js/review/render.js"></script>
+  <script src="/js/review/ui.js"></script>
+  <script src="/js/review/ai.js"></script>
+  <script src="/js/review/scan.js"></script>
+  <script src="/js/review/sidebar.js"></script>
+  <script src="/js/review/init.js"></script>
+</body>
+</html>

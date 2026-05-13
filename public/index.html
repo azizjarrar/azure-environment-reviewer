@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azure Environment Review — Connect</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="top-bar">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#0078D4"/>
+          <path d="M8 22L14 10l4 8 3-4 5 8H8z" fill="white" opacity="0.9"/>
+        </svg>
+        <span>Azure<strong>Review</strong></span>
+      </div>
+      <div class="top-badge">Security Audit Tool</div>
+    </header>
+
+    <main class="center-stage">
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0078D4" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Connect to Azure</h1>
+            <p class="subtitle">Enter your Service Principal credentials to begin the infrastructure review</p>
+          </div>
+        </div>
+
+        <div id="error-banner" class="banner banner-error hidden">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span id="error-text"></span>
+        </div>
+
+        <form id="creds-form" novalidate>
+          <div class="field-group">
+            <label for="tenantId">Tenant ID <span class="req">*</span></label>
+            <input type="text" id="tenantId" name="tenantId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+            <span class="field-hint">Directory (tenant) ID from Azure Active Directory</span>
+          </div>
+
+          <div class="field-group">
+            <label for="clientId">Client ID <span class="req">*</span></label>
+            <input type="text" id="clientId" name="clientId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+            <span class="field-hint">Application (client) ID of your Service Principal</span>
+          </div>
+
+          <div class="field-group">
+            <label for="clientSecret">Client Secret <span class="req">*</span></label>
+            <div class="input-with-toggle">
+              <input type="password" id="clientSecret" name="clientSecret" placeholder="Your service principal secret" autocomplete="new-password" />
+              <button type="button" class="toggle-vis" data-target="clientSecret" aria-label="Toggle visibility">
+                <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <span class="field-hint">Never stored permanently — held only in your browser session</span>
+          </div>
+
+          <div class="field-group">
+            <label for="subscriptionId">Subscription ID <span class="req">*</span></label>
+            <input type="text" id="subscriptionId" name="subscriptionId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+            <span class="field-hint">Target subscription to audit (leave blank to scan all accessible subscriptions)</span>
+          </div>
+
+          <div class="permissions-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>The Service Principal requires <strong>Reader</strong> role at the subscription level and <strong>Security Reader</strong> for Defender findings.</span>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <span class="btn-text">Connect &amp; Start Review</span>
+            <span class="btn-spinner hidden">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              Connecting…
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <p class="footer-note">Credentials are transmitted over HTTPS and stored only in the server-side session. They are never written to disk.</p>
+    </main>
+  </div>
+
+  <script src="/js/credentials.js"></script>
+</body>
+</html>

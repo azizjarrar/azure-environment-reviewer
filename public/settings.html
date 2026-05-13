@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AzureReview — Settings</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/settings.css" />
+</head>
+<body>
+
+  <!-- ── Top Bar ─────────────────────────────────────────────── -->
+  <header class="top-bar">
+    <a href="/review" class="logo" style="text-decoration:none;color:inherit;">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#0078D4"/>
+        <path d="M8 22L14 10l4 8 3-4 5 8H8z" fill="white" opacity="0.9"/>
+      </svg>
+      <span>Azure<strong>Review</strong></span>
+    </a>
+    <div class="top-bar-right">
+      <div class="user-pill">
+        <div class="user-dot" id="user-initials">?</div>
+        <span id="user-name-bar"></span>
+      </div>
+      <a href="/review" class="btn-ghost-nav">Dashboard</a>
+      <button id="logout-btn" class="btn-ghost-nav logout">Logout</button>
+    </div>
+  </header>
+
+  <!-- ── Settings Body ────────────────────────────────────────── -->
+  <div class="settings-body">
+    <div class="settings-inner">
+
+      <!-- Page header -->
+      <div class="settings-header">
+        <div class="settings-header-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0078D4" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Settings</h1>
+          <p>Manage your profile and Azure Service Principal credentials</p>
+        </div>
+      </div>
+
+      <!-- ── Profile section ───────────────────────────────────── -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-card-title">Profile</div>
+            <div class="settings-card-sub">Your account information</div>
+          </div>
+        </div>
+        <div class="settings-card-body">
+          <div class="profile-row">
+            <div class="profile-avatar" id="profile-avatar">?</div>
+            <div class="profile-info">
+              <h3 id="profile-name">Loading…</h3>
+              <span id="profile-email"></span>
+            </div>
+            <div class="profile-meta" id="profile-meta"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── AI Usage section ──────────────────────────────────── -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-card-title">AI Usage &amp; Cost</div>
+            <div class="settings-card-sub">GPT-4.1 token consumption for this account · $2.00&nbsp;/&nbsp;1M input · $8.00&nbsp;/&nbsp;1M output</div>
+          </div>
+        </div>
+        <div class="settings-card-body">
+          <div id="ai-usage-content" class="usage-loading">Loading…</div>
+        </div>
+      </div>
+
+      <!-- ── Azure Credentials section ────────────────────────── -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <div>
+            <div class="settings-card-title">Azure Credentials</div>
+            <div class="settings-card-sub">Service Principal credentials used for environment reviews</div>
+          </div>
+          <button class="btn-sm primary" id="add-cred-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:5px;vertical-align:-1px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Credential
+          </button>
+        </div>
+        <div class="settings-card-body">
+
+          <!-- Credential list -->
+          <div class="cred-list" id="cred-list">
+            <div class="cred-empty">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c8d6e5" stroke-width="1.2">
+                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <h3>No credentials yet</h3>
+              <p>Add your Azure Service Principal to start running reviews.</p>
+            </div>
+          </div>
+
+          <!-- Add / Edit form (hidden by default) -->
+          <div class="add-form-wrap" id="cred-form-wrap">
+            <div class="add-form-title" id="cred-form-title">Add Azure Credential</div>
+
+            <div id="form-error" class="banner banner-error hidden" style="margin:0 0 16px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span id="form-error-text"></span>
+            </div>
+
+            <div class="field-group full" style="margin-bottom:16px;">
+              <label for="cred-label">Label</label>
+              <input type="text" id="cred-label" placeholder="e.g. Production, Staging" />
+              <span class="field-hint">A friendly name to identify this credential set</span>
+            </div>
+
+            <div class="form-grid">
+              <div class="field-group">
+                <label for="cred-tenant">Tenant ID <span class="req">*</span></label>
+                <input type="text" id="cred-tenant" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+              </div>
+
+              <div class="field-group">
+                <label for="cred-client">Client ID <span class="req">*</span></label>
+                <input type="text" id="cred-client" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+              </div>
+
+              <div class="field-group">
+                <label for="cred-secret">Client Secret <span class="req">*</span></label>
+                <div class="input-with-toggle">
+                  <input type="password" id="cred-secret" placeholder="Service principal secret" autocomplete="new-password" />
+                  <button type="button" class="toggle-vis" data-target="cred-secret" aria-label="Toggle visibility">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+                <span class="field-hint" id="secret-hint">Encrypted with AES-256-GCM before storing</span>
+              </div>
+
+              <div class="field-group">
+                <label for="cred-sub">Subscription ID <span class="req">*</span></label>
+                <input type="text" id="cred-sub" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn-sm" id="cancel-form-btn">Cancel</button>
+              <button class="btn-sm primary" id="save-cred-btn">
+                <span id="save-btn-text">Validate &amp; Save</span>
+                <span id="save-btn-spinner" class="hidden">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin" style="vertical-align:-1px">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                  </svg>
+                  Saving…
+                </span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Toast container ──────────────────────────────────────── -->
+  <div class="toast-wrap" id="toast-wrap"></div>
+
+  <script src="/js/settings.js"></script>
+</body>
+</html>

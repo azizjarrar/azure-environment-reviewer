@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AzureReview — Create Account</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="top-bar">
+      <a href="/" class="logo" style="text-decoration:none;color:inherit;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#0078D4"/>
+          <path d="M8 22L14 10l4 8 3-4 5 8H8z" fill="white" opacity="0.9"/>
+        </svg>
+        <span>Azure<strong>Review</strong></span>
+      </a>
+      <div class="top-badge">Security Audit Tool</div>
+    </header>
+
+    <main class="center-stage">
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-wrap">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0078D4" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Create your account</h1>
+            <p class="subtitle">Start auditing your Azure infrastructure in minutes</p>
+          </div>
+        </div>
+
+        <div id="error-banner" class="banner banner-error hidden">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span id="error-text"></span>
+        </div>
+
+        <form id="signup-form" novalidate>
+          <div class="field-group">
+            <label for="name">Full Name <span class="req">*</span></label>
+            <input type="text" id="name" name="name" placeholder="John Doe" autocomplete="name" />          </div>
+
+          <div class="field-group">
+            <label for="email">Email <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="you@company.com" autocomplete="email" />
+          </div>
+
+          <div class="field-group">
+            <label for="password">Password <span class="req">*</span></label>
+            <div class="input-with-toggle">
+              <input type="password" id="password" name="password" placeholder="At least 8 characters" autocomplete="new-password" />
+              <button type="button" class="toggle-vis" data-target="password" aria-label="Toggle visibility">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <span class="field-hint">Minimum 8 characters</span>
+          </div>
+
+          <div class="field-group">
+            <label for="confirm">Confirm Password <span class="req">*</span></label>
+            <div class="input-with-toggle">
+              <input type="password" id="confirm" name="confirm" placeholder="Repeat your password" autocomplete="new-password" />
+              <button type="button" class="toggle-vis" data-target="confirm" aria-label="Toggle visibility">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-spinner hidden">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              Creating account…
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <p class="auth-link" style="margin-top:16px;">
+        Already have an account? <a href="/login">Sign in</a>
+      </p>
+    </main>
+  </div>
+
+  <script src="/js/signup.js"></script>
+</body>
+</html>

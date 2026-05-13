@@ -1,0 +1,486 @@
+/* ─── Settings page layout ──────────────────────────────────── */
+.settings-body {
+  margin-top: 56px;
+  min-height: calc(100vh - 56px);
+  background: var(--bg);
+  padding: 40px 24px 80px;
+}
+
+.settings-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ─── Page header ───────────────────────────────────────────── */
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-header-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--azure-light);
+  border: 1px solid #b3d9f5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.settings-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.settings-header p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ─── Section card ──────────────────────────────────────────── */
+.settings-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.settings-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, #f8fbff 0%, var(--surface) 100%);
+}
+
+.settings-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.settings-card-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.settings-card-body {
+  padding: 24px;
+}
+
+/* ─── Profile row ───────────────────────────────────────────── */
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.profile-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--azure) 0%, #005a9e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: -.5px;
+}
+
+.profile-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.profile-info span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.profile-meta {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* ─── Credential cards ──────────────────────────────────────── */
+.cred-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cred-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: border-color .15s;
+  background: var(--bg);
+}
+
+.cred-card.is-active {
+  border-color: var(--azure);
+  background: #f0f7ff;
+}
+
+.cred-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--azure-light);
+  border: 1px solid #b3d9f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cred-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cred-card-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.badge-active {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: #007c00;
+  background: #e6f4e6;
+  border: 1px solid #b3dcb3;
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+
+.cred-card-meta {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: "Cascadia Code", "Fira Code", monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cred-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.btn-icon:hover { color: var(--azure); border-color: var(--azure); background: var(--azure-light); }
+.btn-icon.danger:hover { color: var(--danger); border-color: var(--danger); background: var(--danger-bg); }
+
+.btn-sm {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.btn-sm:hover { color: var(--azure); border-color: var(--azure); }
+.btn-sm.primary { background: var(--azure); border-color: var(--azure); color: #fff; }
+.btn-sm.primary:hover { background: var(--azure-dark); }
+
+/* ─── Add / Edit form ───────────────────────────────────────── */
+.add-form-wrap {
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  margin-top: 12px;
+  background: var(--bg);
+  display: none;
+}
+
+.add-form-wrap.open { display: block; }
+
+.add-form-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-grid .field-group.full { grid-column: 1 / -1; }
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* ─── Empty state ───────────────────────────────────────────── */
+.cred-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+}
+
+.cred-empty svg { margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto; }
+.cred-empty h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.cred-empty p  { font-size: 13px; }
+
+/* ─── Toasts ────────────────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 999;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 260px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.12);
+  animation: slideUp .2s ease;
+}
+
+.toast.success { background: #e6f4e6; border: 1px solid #b3dcb3; color: #1a4a1a; }
+.toast.error   { background: var(--danger-bg); border: 1px solid #f5c0c0; color: var(--danger); }
+.toast.info    { background: var(--azure-light); border: 1px solid #b3d9f5; color: #004e8c; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Top bar user area ─────────────────────────────────────── */
+.user-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.user-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--azure), #005a9e);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-ghost-nav {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color .15s, border-color .15s;
+}
+.btn-ghost-nav:hover { color: var(--text); border-color: #aaa; }
+.btn-ghost-nav.logout:hover { color: var(--danger); border-color: var(--danger); }
+
+/* ─── AI Usage card ─────────────────────────────────────────── */
+.usage-loading {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.usage-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.usage-stat {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.usage-stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--azure);
+  margin-bottom: 4px;
+  letter-spacing: -.5px;
+}
+
+.usage-stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+.usage-note {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.usage-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.usage-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.usage-table thead th {
+  background: linear-gradient(135deg, #f8fbff 0%, var(--surface) 100%);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.usage-table thead th.num,
+.usage-table tbody td.num { text-align: right; }
+
+.usage-table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.usage-table tbody tr:last-child { border-bottom: none; }
+
+.usage-table tbody tr:hover { background: #f8fbff; }
+
+.usage-table tbody td {
+  padding: 10px 14px;
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.usage-table tbody td.mono {
+  font-family: "Cascadia Code", "Fira Code", monospace;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.usage-table tbody td.cost {
+  font-weight: 700;
+  color: var(--azure);
+}
+
+.usage-type-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.usage-type-badge.report {
+  background: var(--azure-light);
+  color: var(--azure);
+  border: 1px solid #b3d9f5;
+}
+
+.usage-type-badge.chat {
+  background: #f0f7ee;
+  color: #2e7d32;
+  border: 1px solid #b3dcb3;
+}
+
+.usage-empty-row {
+  text-align: center;
+  color: var(--muted);
+  padding: 28px 14px !important;
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid .field-group.full { grid-column: 1; }
+  .settings-body { padding: 24px 16px 60px; }
+  .cred-card { flex-wrap: wrap; }
+  .usage-grid { grid-template-columns: repeat(3, 1fr); }
+}

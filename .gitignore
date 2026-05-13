@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Project specific
+output/
+data/
+*.pdf
+*.docx
+*.json
+!package.json
+!package-lock.json
+!test-resources/**/*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs and AI Helpers
+.vscode/
+.idea/
+.claude/
+**/CLAUDE.md
